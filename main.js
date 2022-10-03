@@ -1,15 +1,14 @@
-// DOM selector
+// DECLARE SELECTOR
 const inputBookTitle = document.getElementById('inputBookTitle');
 const inputBookAuthor = document.getElementById('inputBookAuthor');
 const inputBookYear = document.getElementById('inputBookYear');
 const inputBookIsComplete = document.getElementById('inputBookIsComplete');
 const inputBook = document.getElementById('inputBook');
 const completeBookshelfList = document.getElementById('completeBookshelfList');
-const incompleteBookshelfList = document.getElementById(
-    'incompleteBookshelfList'
-);
+const incompleteBookshelfList = document.getElementById('incompleteBookshelfList');
 const searchBookTitle = document.getElementById('searchBookTitle');
 
+// STATE BOOK
 let book = {
     id: 0,
     title: '',
@@ -17,9 +16,11 @@ let book = {
     year: 0,
     isComplete: false,
 };
-
-const booksLocal = JSON.parse(localStorage.getItem('books'));
+// STATE BOOKS
 let books = [];
+
+// GET BOOK FROM LOCAL STORAGE
+const booksLocal = JSON.parse(localStorage.getItem('books'));
 
 const bookBody = (bookValue) => {
     return `
@@ -28,9 +29,7 @@ const bookBody = (bookValue) => {
         <p>Penulis: ${bookValue.author}</p>
         <p>Tahun: ${bookValue.year}</p>
         <div class="action">
-            <button onclick="updateStatus(this.parentNode.parentNode)" class="green">${
-                bookValue.isComplete ? 'Belum selesai dibaca' : 'selesai dibaca'
-            }</button>
+            <button onclick="updateStatus(this.parentNode.parentNode)" class="green">${bookValue.isComplete ? 'Belum selesai dibaca' : 'selesai dibaca'}<button>
             <button type="button" onclick="deleteBook(this.parentNode.parentNode)" class="red">Hapus buku</button>
         </div>
     </article>
@@ -46,11 +45,12 @@ const handleChange = (e) => {
         case 'isComplete':
             book = { ...book, isComplete: !book.isComplete }; //boolean
             break;
-        default:
-            book = { ...book, [e.target.name]: e.target.value }; //string
+        default: //string
+            book = { ...book, [e.target.name]: e.target.value };
             break;
     }
 };
+
 const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -75,9 +75,8 @@ const handleSubmit = (e) => {
     }
 
     localStorage.setItem('books', JSON.stringify(books));
-    book.isComplete
-        ? completeBookshelfList.appendChild(list)
-        : incompleteBookshelfList.appendChild(list);
+    book.isComplete ? completeBookshelfList.appendChild(list) : incompleteBookshelfList.appendChild(list);
+    inputBook.reset();
 };
 
 function updateStatus(book) {
@@ -88,9 +87,7 @@ function updateStatus(book) {
             if (item.id == book.id) {
                 item.isComplete = !item.isComplete;
                 list.innerHTML = bookBody(item);
-                item.isComplete
-                    ? completeBookshelfList.appendChild(list)
-                    : incompleteBookshelfList.appendChild(list);
+                item.isComplete ? completeBookshelfList.appendChild(list) : incompleteBookshelfList.appendChild(list);
                 book.remove();
                 localStorage.setItem('books', JSON.stringify(books));
             }
@@ -102,11 +99,7 @@ function updateStatus(book) {
 
 function deleteBook(book) {
     for (let i = 0; i < books.length; i++) {
-        if (
-            books[i] !== null &&
-            books[i].id !== null &&
-            books[i].id == book.id
-        ) {
+        if (books[i] !== null && books[i].id !== null && books[i].id == book.id) {
             books[i] = null;
             localStorage.setItem('books', JSON.stringify(books));
             book.remove();
@@ -140,9 +133,7 @@ function loadData() {
             if (books[i] !== null && books[i].id) {
                 let list = document.createElement('li');
                 list.innerHTML = bookBody(books[i]);
-                books[i].isComplete
-                    ? completeBookshelfList.appendChild(list)
-                    : incompleteBookshelfList.appendChild(list);
+                books[i].isComplete ? completeBookshelfList.appendChild(list) : incompleteBookshelfList.appendChild(list);
             } else {
                 continue;
             }

@@ -110,7 +110,7 @@ main {
     padding: 16px;
     width: 100%;
     display: grid;
-    grid-template-columns: auto 1fr 0.5fr;
+    grid-template-columns: auto 1fr;
     grid-gap: 10px;
 }
 
@@ -122,14 +122,6 @@ main {
 .search_section > form > input {
     padding: 5px;
     border-radius: 5px;
-}
-
-.search_section > form > button {
-    background-color: cornflowerblue;
-    color: white;
-    border: 0;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 .book_shelf {
